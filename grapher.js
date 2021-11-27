@@ -23,7 +23,7 @@ function render(cam, u) {
 	    tu.addscl(v, s);
 	    tu.addscl(w, t);
 	    let hit = cast_ray(ray, tu) * 255;
-	    let color = hit ? ((ray.x * 100) & 255) ^ ((ray.y * 100) & 255) : 0;
+	    let color = hit ? ((ray.x * 256) & 255) ^ ((ray.y * 256) & 255) : 0;
 	    imageData.data[i] = color; ++i;
 	    imageData.data[i] = color; ++i;
 	    imageData.data[i] = color + (hit ? 0 : 255); ++i;
@@ -34,19 +34,58 @@ function render(cam, u) {
     //console.timeEnd();
 }
 
-function renderInterval() {
-    let h = 0;
-    setInterval(function() {
-	let u = new Point(Math.cos(h), Math.sin(h), 0);
-	let cam = new Point(-10 * u.x, -10 * u.y, 8);
+
+
+function testRender(h, p, sides) {
+    let u = new Point(Math.cos(h) * Math.cos(p), Math.sin(h) * Math.cos(p), Math.sin(p));
+    //let cam = new Point(-10 * u.x, -10 * u.y, 4);
+    let cam = new Point(0, 0, 1);
+    if (sides) {
+	for (var i = 0; i < 6; ++i)
+	    renderSide(cam, i);
+	renderSidesToCanvas(u);
+    } else {
 	render(cam, u);
-	h += 0.01;
-    }, 100);
+    }
 }
-renderInterval();
 
 function testRay(x, y, z, ux, uy, uz) {
     let ray = new Point(x, y, z);
     let u = new Point(ux, uy, uz);
     return [cast_ray(ray, u), ray.x, ray.y, ray.z];
+}
+
+function sidesDemo() {
+    let cam = new Point(-2, 2, 1);
+    for (var i = 0; i < 6; ++i)
+	renderSide(cam, i);
+    let h = 0;
+    let j = 0;
+    let p = 0;
+    let q = 0;
+    setInterval(function() {
+	let u = new Point(Math.cos(h) * Math.cos(p), Math.sin(h) * Math.cos(p), Math.sin(p));
+	renderSidesToCanvas(u);
+	j += 0.01;
+	h = Math.sin(j);
+	q += 0.006;
+	p = Math.sin(q);
+    }, 1000/60);
+}
+sidesDemo();
+
+function displaySide(side) {
+    side *= 512 * 512 * 3;
+    var imageData = new ImageData(512, 512);
+    for (var i = 0; i < 512 * 512; ++i) {
+	imageData.data[4 * i] = sidesData[side + 3 * i];
+	imageData.data[4 * i + 1] = sidesData[side + 3 * i + 1];
+	imageData.data[4 * i + 2] = sidesData[side + 3 * i + 2];
+	imageData.data[4 * i + 3] = 255;
+    }
+    var cn = document.createElement("canvas");
+    cn.width = 512;
+    cn.height = 512;
+    cn.getContext("2d").putImageData(imageData, 0, 0);
+    document.body.appendChild(cn);
 }

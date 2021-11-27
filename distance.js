@@ -28,6 +28,7 @@ function load_saddle() {
     dotnablaf = (x, y) => (x * x + y * y);
 }
 
+//load_paraboloid();
 load_saddle();
 
 /*// the gradient of f dot the gradient of f
