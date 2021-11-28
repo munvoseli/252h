@@ -34,11 +34,11 @@ function renderSide(cam, dir) {
 	    let tu = new Point(u.x, u.y, u.z);
 	    tu.addscl(v, s);
 	    tu.addscl(w, t);
-	    let hit = cast_ray(ray, tu) * 255;
-	    let color = hit ? ((ray.x * 256) & 255) ^ ((ray.y * 256) & 255) : 0;
-	    sidesPush(color);
-	    sidesPush(color);
-	    sidesPush(hit ? color : 255);
+	    let hit = cast_ray(ray, tu);
+	    let color = ((ray.x * 256) & 255) ^ ((ray.y * 256) & 255);
+	    sidesPush([0  , color, 0][hit]);
+	    sidesPush([0  , color, 255][hit]);
+	    sidesPush([255, color, 0][hit]);
 	}
     }
     //console.timeEnd();

@@ -19,13 +19,21 @@ class Point {
     }
 }
 
+
+// @return
+// 0: miss
+// 1: hit
+// 2: out of bounds
 function cast_ray(ray, u) {
     let de;
     let i = 0;
     while (true) {
 	de = de_cone(ray.x, ray.y, ray.z);
+	if (de == -1) {
+	    return 2;
+	}
 	if (de < 0.01 || i == 100 || de > 100)
-	    return de < 0.01; // if hit, return true
+	    return de < 0.01 ? 1 : 0; // if hit, return true
 	ray.addscl(u, de / 2);
 	++i;
     }

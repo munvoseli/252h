@@ -10,5 +10,18 @@
   </head>
   <body>
     <canvas id="canvas" width="512" height="512"></canvas>
+    <input id="f-input" placeholder="y x sqrt *"/><br>
+    <!--<input type="checkbox" id="numdiff-check">
+    <label for="numdiff-check">Use numerical differentiation</label>-->
+    <div id="fxy-input">
+      <input id="fx-input" placeholder="y 2 / x sqrt /"/><br>
+      <input id="fy-input" placeholder="x sqrt">
+    </div>
+    <button type="button" id="go-button">Go</button>
+    <p>Blue areas are areas where a solution could not be found in a reasonable amount of time.  Green areas are where the distance function is undefined, which happens when any of the provided functions are undefined.</p>
+    <p>This uses postfix/reverse polish notation.</p>
+    <p>Supports operators such as +, -, *, /, and ^.</p>
+    <p>Supports functions such as sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, csc, sec, cot, sqrt, cbrt (cube root), abs, exp, ln.</p>
+    <p>Built-in constants, such as e, pi, and 2pi.</p>
   </body>
 </html>
