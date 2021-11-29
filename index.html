@@ -10,12 +10,13 @@
   </head>
   <body>
     <canvas id="canvas" width="512" height="512"></canvas>
-    <input id="f-input" placeholder="y x sqrt *"/><br>
+    <pre id="pccam-status"></pre>
+    <input id="f-input" placeholder="x y *"/><br>
     <!--<input type="checkbox" id="numdiff-check">
     <label for="numdiff-check">Use numerical differentiation</label>-->
     <div id="fxy-input">
-      <input id="fx-input" placeholder="y 2 / x sqrt /"/><br>
-      <input id="fy-input" placeholder="x sqrt">
+      <input id="fx-input" placeholder="y"/><br>
+      <input id="fy-input" placeholder="x">
     </div>
     <button type="button" id="go-button">Go</button>
     <p>Blue areas are areas where a solution could not be found in a reasonable amount of time.  Green areas are where the distance function is undefined, which happens when any of the provided functions are undefined.</p>

@@ -161,6 +161,8 @@ function playerLoop() {
 	} else {
 	    console.log(status, ray);
 	}
+	document.getElementById("pccam-status").innerHTML =
+	    `${pccam.pos.x.toFixed(2)}, ${pccam.pos.y.toFixed(2)}, ${pccam.pos.z.toFixed(2)}`;
     }
     pccam.ph += (keys.up - keys.down) * 0.05;
     pccam.th += (keys.left - keys.right) * 0.05;

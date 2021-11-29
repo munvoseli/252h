@@ -32,7 +32,7 @@ function cast_ray(ray, u) {
 	if (de == -1) {
 	    return 2;
 	}
-	if (de < 0.01 || i == 100 || de > 100)
+	if (de < 0.01 || i == 200 || de > 100)
 	    return de < 0.01 ? 1 : 0; // if hit, return true
 	ray.addscl(u, de / 2);
 	++i;
