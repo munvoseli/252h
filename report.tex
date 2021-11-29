@@ -11,7 +11,7 @@
 
 \subsection*{Why raycasting is necessary}
 
-Computer images are (normally, and right now you can pretend that they are always) made of pixels - a 2d lattice of points and associated colors for screen rendering.  If you zoom really far into an image, it gets blurry because the pixels are so sparse.
+Computer images are (normally, and right now you can pretend that they are always) made of pixels - a 2d lattice of points and associated colors for screen rendering.  If you zoom really far into an image, it gets blurry because the pixels are so sparse, and the computer doesn't have much to work with.
 
 A lot of rendering today is done by raycasting.  In raycasting, every pixel on the image that is being generated is assigned a vector.  The top left pixel of the image may correspond to a ray that goes in front, above, and to the left of the camera.  Each ray is then tested for intersection with the environment - whether or not it hits something, or where it ends up landing.  Depending on the result (hit/miss, near/far), the pixel corresponding to the ray can be filled in.
 
@@ -29,19 +29,19 @@ If the distance to the environment surface approaches 0, then my program assumes
 
 I made an intermediate stage between casting the rays and displaying them.
 
-With this technique, I put an axis-aligned cube around the camera.  I then draw a texture on each of the faces of the cube.  Once I have the cube, I can look up for each pixel in the image (and a latitude and longitude for the direction the camera is pointing) what color the pixel should be.
+With this technique, the program puts an axis-aligned cube around the camera.  It then draws a texture on each of the faces of the cube.  Once it has the cube, it can look up for each pixel in the image (and a latitude and longitude for the direction the camera is pointing) what color the pixel should be.
 
-Painting the cube takes about 6 times as long as painting the screen directly, but I expect the position of the camera to remain constant.  The camera can rotate any which way, and I won't have to make a new cube map!
+Painting the cube takes about 6 times as long as painting the screen directly, but I expect the position of the camera to change infrequently due to the nature of camera movement in the program.  The camera can rotate any which way, and the program won't have to make a new cube map until the camera's position changes!
 
-Theoretically, a technology (WebGL/OpenGL) does exist that could make drawing the cube map to the screen even faster so it isn't slowed down on devices slower than my laptop, but I've tried it a couple of times outside of this project and could not figure it out.  I did not feel confident using it for this project.
+A technology (WebGL/OpenGL) does exist that could make drawing the cube map to the screen even faster so it isn't slowed down on devices slower than my laptop, but I've tried it a couple of times outside of this project and could not figure it out.  I did not feel confident using it for this project.
 
 \section*{Distance estimator}
 
-The original proposal was to use signed distance functions, but signed distance functions turned into signed distance estimators (because not all signed distance functions are solvable), and signed distance estimators turned into distance estimators because a good-ish unsigned distance estimator was easier to implement.  This distance estimator was artifically modified to be signed in order to handle different cases easier.
+The original proposal was to use signed distance functions, but signed distance functions turned into signed distance estimators (because not all signed distance functions are solvable), and signed distance estimators turned into distance estimators because a good-ish unsigned distance estimator was easier to implement.  This distance estimator this program uses was artifically modified to be signed in order to handle different cases easier.
 
 In order to get a distance estimate, the program measures the distance to a cone.  The pointy point on this cone has the same $x$ and $y$ of the sample point, but its $z$ is $f(x,y)$ - it lies on the surface.  Its slope is equal to $\pm\nabla f(x,y)$.  The large problem in using them is that they may be inaccruate, especially when the derivatives change rapidly, because this cone relies on the maximum gradient being constant.
 
-I had also tried a paraboloid (like the next step after the cone of some Taylor series with 2 input variables), but that was getting complicated.  The distance function for a parabola contains a cube root, which is computationally slow, and such a function for a paraboloid could be much worse, so I decided to stop bothering with it.
+I had also tried a paraboloid (like the next step after the cone of some Taylor series with 2 input variables), but that was getting complicated.  The distance function for a parabola contains trigonometric and power functions, which are computationally slow compared to multiplication and addition, and such a function for a paraboloid could be much worse, so I decided to stop bothering with it.
 
 \section*{Function input}
 
