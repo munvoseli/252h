@@ -29,12 +29,11 @@ function cast_ray(ray, u) {
     let i = 0;
     while (true) {
 	de = de_cone(ray.x, ray.y, ray.z);
-	if (de == -1) {
-	    return 2;
-	}
-	if (de < 0.01 || i == 200 || de > 100)
-	    return de < 0.01 ? 1 : 0; // if hit, return true
-	ray.addscl(u, de / 2);
+	if (de == -1) return 2;
+	if (de < 0.01) return 1; // hit
+	if (de > 300) return 3;
+	if (i == 300) return 0;
+	ray.addscl(u, de / 4);
 	++i;
     }
 }

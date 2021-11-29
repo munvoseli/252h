@@ -36,9 +36,9 @@ function renderSide(cam, dir) {
 	    tu.addscl(w, t);
 	    let hit = cast_ray(ray, tu);
 	    let color = ((ray.x * 256) & 255) ^ ((ray.y * 256) & 255);
-	    sidesPush([0  , color, 0][hit]);
-	    sidesPush([0  , color, 255][hit]);
-	    sidesPush([255, color, 0][hit]);
+	    sidesPush([ 0  , color, 0  ,   0 ][hit]);
+	    sidesPush([ 0  , color, 255,   0 ][hit]);
+	    sidesPush([ 255, color, 0  ,   0 ][hit]);
 	}
     }
     //console.timeEnd();
