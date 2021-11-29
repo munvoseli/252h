@@ -21,15 +21,18 @@ class Point {
 
 
 // @return
-// 0: miss
+// 0: miss by too many iterations
 // 1: hit
-// 2: out of bounds
+// 2: miss by function undefined
+// 3: miss by too far away
 function cast_ray(ray, u) {
     let de;
     let i = 0;
     while (true) {
 	de = de_cone(ray.x, ray.y, ray.z);
-	if (de == -1) return 2;
+	if (isNaN(de)) return 2;
+	// use combination of regular distance estimator and very bad estimator
+	// to determine hit
 	if (de < 0.01) return 1; // hit
 	if (de > 300) return 3;
 	if (i == 300) return 0;

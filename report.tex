@@ -37,7 +37,7 @@ Theoretically, a technology (WebGL/OpenGL) does exist that could make drawing th
 
 \section*{Distance estimator}
 
-The original proposal was to use signed distance functions, but signed distance functions turned into signed distance estimators (because not all signed distance functions are solvable), and signed distance estimators turned into distance estimators because it turned out to be more fun to be able to look at any side of a surface instead of just the top.
+The original proposal was to use signed distance functions, but signed distance functions turned into signed distance estimators (because not all signed distance functions are solvable), and signed distance estimators turned into distance estimators because a good-ish unsigned distance estimator was easier to implement.  This distance estimator was artifically modified to be signed in order to handle different cases easier.
 
 In order to get a distance estimate, the program measures the distance to a cone.  The pointy point on this cone has the same $x$ and $y$ of the sample point, but its $z$ is $f(x,y)$ - it lies on the surface.  Its slope is equal to $\pm\nabla f(x,y)$.  The large problem in using them is that they may be inaccruate, especially when the derivatives change rapidly, because this cone relies on the maximum gradient being constant.
 

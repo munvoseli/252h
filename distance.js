@@ -37,8 +37,7 @@ function dotnablaf(x, y) {
 }*/
 
 function de_cone(x, y, z) {
-    const val = Math.abs(z - f(x, y)) / Math.sqrt(1 + dotnablaf(x, y));
-    return isNaN(val) ? -1 : val;
+    return (z - f(x, y)) / Math.sqrt(1 + dotnablaf(x, y));
 }
 
 
