@@ -1,4 +1,8 @@
-
+const pccam = {
+    pos: new Point(0,0,1),
+    th: 0,
+    ph: 0
+};
 
 function render(cam, u) {
     //console.time();
@@ -42,7 +46,7 @@ function testRender(h, p, sides) {
     let cam = new Point(0, 0, 1);
     if (sides) {
 	for (var i = 0; i < 6; ++i)
-	    renderSide(cam, i);
+	    renderSide(pccam.pos, i);
 	renderSidesToCanvas(u);
     } else {
 	render(cam, u);
@@ -72,7 +76,7 @@ function sidesDemo() {
 	p = Math.sin(q);
     }, 1000/60);
 }
-sidesDemo();
+//sidesDemo();
 
 function displaySide(side) {
     side *= 512 * 512 * 3;
@@ -112,3 +116,72 @@ document.getElementById("go-button").addEventListener("click", function() {
     for (var i = 0; i < 6; ++i)
 	renderSide(cam, i);
 }, false);
+
+
+
+
+
+
+
+
+
+
+
+
+function bakeFromPlayer() {
+    sidesByteOffset = 0;
+    for (var i = 0; i < 6; ++i)
+	renderSide(pccam.pos, i);
+}
+
+function renderFromPlayer() {
+    let u = new Point(Math.cos(pccam.th) * Math.cos(pccam.ph),
+		      Math.sin(pccam.th) * Math.cos(pccam.ph),
+		      Math.sin(pccam.ph));
+    renderSidesToCanvas(u);
+}
+
+var keys = {up: 0, down: 0, left: 0, right: 0, tele: 0};
+
+function playerLoop() {
+    var changed = keys.up | keys.down | keys.left | keys.right | keys.tele;
+    if (keys.tele) {
+	keys.tele = 0;
+	var ray = new Point(0,0,0);
+	ray.seteq(pccam.pos);
+	const u = new Point(Math.cos(pccam.th) * Math.cos(pccam.ph),
+			  Math.sin(pccam.th) * Math.cos(pccam.ph),
+			  Math.sin(pccam.ph));
+	const status = cast_ray(ray, u);
+	if (status == 1) {
+	    pccam.pos.seteq(ray);
+	    // here, should offset smarter
+	    pccam.pos.z += 1;
+	    bakeFromPlayer();
+	} else {
+	    console.log(status, ray);
+	}
+    }
+    pccam.ph += (keys.up - keys.down) * 0.05;
+    pccam.th += (keys.left - keys.right) * 0.05;
+    if (changed)
+	renderFromPlayer();
+}
+
+bakeFromPlayer();
+renderFromPlayer();
+setInterval(playerLoop, 1000/16);
+
+function handleKey(key, b) {
+    if (document.activeElement.tagName == "INPUT")
+	return;
+         if (key == "w") keys.up    = b;
+    else if (key == "a") keys.left  = b;
+    else if (key == "s") keys.down  = b;
+    else if (key == "d") keys.right = b;
+    else if (key == "f") keys.tele  = b;
+    
+}
+
+addEventListener("keydown", function(e) {handleKey(e.key, 1)}, false);
+addEventListener(  "keyup", function(e) {handleKey(e.key, 0)}, false);
