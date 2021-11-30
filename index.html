@@ -11,16 +11,21 @@
   <body>
     <canvas id="canvas" width="512" height="512"></canvas>
     <pre id="pccam-status"></pre>
-    <input id="pos-input" placeholder="1 1 5"/><br>
-    <input id="f-input" placeholder="x y *"/><br>
+    <input id="pos-input" placeholder="1 1 5"/>
+    <label for="pos-input">Starting position</label><br>
+    <input id="f-input" placeholder="x sqrt 2 * y +"/>
+    <label for="f-input">Function</label><br>
     <!--<input type="checkbox" id="numdiff-check">
     <label for="numdiff-check">Use numerical differentiation</label>-->
     <div id="fxy-input">
-      <input id="fx-input" placeholder="y"/><br>
-      <input id="fy-input" placeholder="x">
+      <input id="fx-input" placeholder="1 x sqrt /"/>
+      <label for="fx-input">f<sub>x</sub></label><br>
+      <input id="fy-input" placeholder="1">
+      <label for="fy-input">f<sub>y</sub></label>
     </div>
     <button type="button" id="go-button">Go</button>
-    <p>Blue areas are areas where a solution could not be found in a reasonable amount of time.  Green areas are where the distance function is undefined, which happens when any of the provided functions are undefined.</p>
+    <p>Use W, A, S, and D to look around.  Use F to teleport forward.</p>
+    <p>Blue areas are areas where a solution could not be found in a reasonable amount of time.  Green areas are where the distance function is undefined, which happens when any of the provided functions are undefined.  Black is outer space (too far from the surface).</p>
     <p>This uses postfix/reverse polish notation.</p>
     <p>Supports operators such as +, -, *, /, and ^.</p>
     <p>Supports functions such as sin, cos, tan, asin, acos, atan, sinh, cosh, tanh, csc, sec, cot, sqrt, cbrt (cube root), abs, exp, ln.</p>
