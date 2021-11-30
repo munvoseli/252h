@@ -103,20 +103,6 @@ function displaySide(side) {
 
 
 
-document.getElementById("go-button").addEventListener("click", function() {
-    var strfunc =  document.getElementById("f-input").value;
-    var strfuncx = document.getElementById("fx-input").value;
-    var strfuncy = document.getElementById("fy-input").value;
-    f = funcstrToJs(strfunc);
-    f_x = funcstrToJs(strfuncx);
-    f_y = funcstrToJs(strfuncy);
-    dotnablaf = (x, y) => (f_x(x,y)**2+f_y(x,y)**2);
-    let cam = new Point(-2, 2, 1);
-    sidesByteOffset = 0;
-    for (var i = 0; i < 6; ++i)
-	renderSide(cam, i);
-}, false);
-
 
 
 
@@ -187,3 +173,28 @@ function handleKey(key, b) {
 
 addEventListener("keydown", function(e) {handleKey(e.key, 1)}, false);
 addEventListener(  "keyup", function(e) {handleKey(e.key, 0)}, false);
+
+
+document.getElementById("go-button").addEventListener("click", function() {
+    var coords = document.getElementById("pos-input").value;
+    if (coords.length) {
+	coords = coords
+	    .replaceAll(",","")
+	    .split(" ")
+	    .map(x=>parseFloat(x));
+	pccam.pos.x = coords[0];
+	pccam.pos.y = coords[1];
+	pccam.pos.z = coords[2];
+    }
+    var strfunc  = document.getElementById("f-input").value;
+    var strfuncx = document.getElementById("fx-input").value;
+    var strfuncy = document.getElementById("fy-input").value;
+    f = funcstrToJs(strfunc);
+    f_x = funcstrToJs(strfuncx);
+    f_y = funcstrToJs(strfuncy);
+    dotnablaf = (x, y) => (f_x(x,y)**2+f_y(x,y)**2);
+    sidesByteOffset = 0;
+    for (var i = 0; i < 6; ++i)
+	renderSide(pccam.pos, i);
+    renderFromPlayer();
+}, false);
